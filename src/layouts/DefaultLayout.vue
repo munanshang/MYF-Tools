@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getCategories, getToolsByCategory } from '../tools/registry'
+import { navItems } from '../data/nav'
 import AnnouncementModal from '../components/AnnouncementModal.vue'
 
 const route = useRoute()
@@ -17,6 +18,12 @@ const categories = computed(() =>
     tools: getToolsByCategory(cat),
   }))
 )
+
+const navIconMap: Record<string, string> = {
+  home: 'icon-home',
+  history: 'icon-history',
+  message: 'icon-message',
+}
 
 function goHome() {
   drawer.value = false
@@ -61,23 +68,17 @@ function goTool(path: string) {
           <span class="header-title">{{ pageTitle }}</span>
         </div>
         <div class="header-right">
-          <a-button type="text" class="header-btn" @click="goHome">
+          <a-button
+            v-for="item in navItems"
+            :key="item.id"
+            type="text"
+            class="header-btn"
+            @click="router.push(item.path)"
+          >
             <template #icon>
-              <icon-home />
+              <component :is="navIconMap[item.icon]" />
             </template>
-            首页
-          </a-button>
-          <a-button type="text" class="header-btn" @click="router.push('/changelog')">
-            <template #icon>
-              <icon-history />
-            </template>
-            日志
-          </a-button>
-          <a-button type="text" class="header-btn" @click="router.push('/feedback')">
-            <template #icon>
-              <icon-message />
-            </template>
-            反馈
+            {{ item.label }}
           </a-button>
         </div>
       </div>
@@ -110,11 +111,13 @@ function goTool(path: string) {
 
       <div class="drawer-divider" />
       <a-list :bordered="false" class="drawer-list">
-        <a-list-item class="drawer-item" @click="goTool('/changelog')">
-          <a-list-item-meta title="更新日志" description="网站维护与工具变更记录" />
-        </a-list-item>
-        <a-list-item class="drawer-item" @click="goTool('/feedback')">
-          <a-list-item-meta title="反馈与建议" description="公众号 / 邮件反馈，期待工具" />
+        <a-list-item
+          v-for="item in navItems.filter(n => n.id !== 'home')"
+          :key="item.id"
+          class="drawer-item"
+          @click="goTool(item.path)"
+        >
+          <a-list-item-meta :title="item.label" />
         </a-list-item>
       </a-list>
     </a-drawer>
@@ -122,6 +125,20 @@ function goTool(path: string) {
     <main class="main">
       <router-view />
     </main>
+
+    <!-- mobile bottom nav -->
+    <nav class="bottom-nav">
+      <button
+        v-for="item in navItems"
+        :key="item.id"
+        class="bn-item"
+        :class="{ active: route.path === item.path }"
+        @click="goTool(item.path)"
+      >
+        <component :is="navIconMap[item.icon]" :size="18" />
+        <span>{{ item.label }}</span>
+      </button>
+    </nav>
 
     <footer class="footer">
       <p class="footer-text">码艺坊在线工具箱 · 由 <a class="footer-link" href="https://qishuai.top" target="_blank" rel="noopener">目南殇</a> 提供技术支持</p>
@@ -131,7 +148,7 @@ function goTool(path: string) {
           <icon-link :size="14" />
           <span>个人博客</span>
         </a>
-        <a class="footer-link-item" href="https://github.com/munanshang/MYF-Tools" target="_blank" rel="noopener">
+        <a class="footer-link-item" href="https://github.com/munanshang" target="_blank" rel="noopener">
           <icon-github :size="14" />
           <span>GitHub</span>
         </a>
@@ -319,6 +336,20 @@ function goTool(path: string) {
   color: var(--brand-500);
 }
 
+@media (max-width: 767px) {
+  .header-right {
+    display: none !important;
+  }
+
+  .main {
+    padding-bottom: 80px;
+  }
+
+  .footer {
+    padding-bottom: 80px !important;
+  }
+}
+
 @media (min-width: 768px) {
   .header {
     padding: 0 24px;
@@ -330,6 +361,46 @@ function goTool(path: string) {
 
   .header-title {
     font-size: 1rem;
+  }
+}
+
+/* bottom nav (mobile only) */
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    height: 56px;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    background: var(--surface);
+    border-top: 1px solid var(--border-subtle);
+    box-shadow: 0 -1px 8px rgb(15 23 42 / 6%);
+  }
+
+  .bn-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    font-size: 0.625rem;
+    cursor: pointer;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .bn-item.active {
+    color: var(--brand-500);
   }
 }
 </style>
