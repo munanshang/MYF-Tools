@@ -8,7 +8,7 @@ const route = useRoute()
 const router = useRouter()
 const drawer = ref(false)
 
-const pageTitle = computed(() => (route.meta.title as string) || '码艺仿在线工具箱')
+const pageTitle = computed(() => (route.meta.title as string) || '码艺坊在线工具箱')
 const isHome = computed(() => route.path === '/')
 
 const categories = computed(() =>
@@ -124,7 +124,7 @@ function goTool(path: string) {
     </main>
 
     <footer class="footer">
-      <p class="footer-text">码艺仿在线工具箱 · 由 <a class="footer-link" href="https://qishuai.top" target="_blank" rel="noopener">目南殇</a> 提供技术支持</p>
+      <p class="footer-text">码艺坊在线工具箱 · 由 <a class="footer-link" href="https://qishuai.top" target="_blank" rel="noopener">目南殇</a> 提供技术支持</p>
       <p class="footer-text footer-copy">&copy; 2026 - 至今 保留所有权利 · MIT License</p>
       <div class="footer-links">
         <a class="footer-link-item" href="https://qishuai.top" target="_blank" rel="noopener">

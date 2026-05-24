@@ -30,10 +30,10 @@ function copyEmail() {
     <!-- wechat -->
     <div v-if="tab === 'wechat'" class="fb-panel">
       <p class="fb-desc">
-        关注「码艺仿」公众号，直接发送反馈信息，我们会及时查看并回复。
+        关注「码艺坊」公众号，直接发送反馈信息，我们会及时查看并回复。
       </p>
       <div class="fb-qrcode">
-        <img src="/qrcode.jpg" alt="码艺仿公众号二维码" class="qrcode-img" />
+        <img src="/qrcode.jpg" alt="码艺坊公众号二维码" class="qrcode-img" />
       </div>
       <p class="fb-hint">微信扫码关注 · 发送反馈</p>
     </div>
@@ -60,7 +60,7 @@ function copyEmail() {
       <div class="fb-suggest-flow">
         <div class="flow-step">
           <span class="flow-num">1</span>
-          <span class="flow-text">关注「码艺仿」公众号 或 发送邮件</span>
+          <span class="flow-text">关注「码艺坊」公众号 或 发送邮件</span>
         </div>
         <div class="flow-arrow">↓</div>
         <div class="flow-step">

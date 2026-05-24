@@ -40,7 +40,7 @@ function dismiss() {
       <!-- fixed header -->
       <div class="ann-header">
         <p class="ann-title">网站公告</p>
-        <p class="ann-sub">码艺仿公众号 · 微信扫码关注，获取更多开发工具</p>
+        <p class="ann-sub">码艺坊公众号 · 微信扫码关注，获取更多开发工具</p>
       </div>
 
       <!-- scrollable content -->

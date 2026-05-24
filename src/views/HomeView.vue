@@ -73,7 +73,7 @@ onUnmounted(() => {
     <section class="hero">
       <span class="hero-badge">开发者工具</span>
       <h1 class="hero-title">
-        <span class="hero-title-gradient">码艺仿在线工具箱</span>
+        <span class="hero-title-gradient">码艺坊在线工具箱</span>
       </h1>
       <p class="hero-subtitle">
         共 {{ tools.length }} 款常用开发小工具，开箱即用

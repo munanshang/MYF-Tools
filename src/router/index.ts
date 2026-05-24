@@ -14,7 +14,7 @@ const router = createRouter({
           path: '',
           name: 'home',
           component: HomeView,
-          meta: { title: '码艺仿在线工具箱' },
+          meta: { title: '码艺坊在线工具箱' },
         },
         {
           path: 'feedback',
@@ -43,8 +43,8 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  const title = (to.meta.title as string) || '码艺仿在线工具箱'
-  document.title = to.path === '/' ? '码艺仿在线工具箱' : `${title} · 码艺仿在线工具箱`
+  const title = (to.meta.title as string) || '码艺坊在线工具箱'
+  document.title = to.path === '/' ? '码艺坊在线工具箱' : `${title} · 码艺坊在线工具箱`
 })
 
 export default router

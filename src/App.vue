@@ -92,8 +92,8 @@ onMounted(() => {
         </div>
 
         <!-- text -->
-        <p class="loader-brand">码艺仿</p>
-        <p class="loader-title">码艺仿在线工具箱</p>
+        <p class="loader-brand">码艺坊</p>
+        <p class="loader-title">码艺坊在线工具箱</p>
 
         <!-- progress track -->
         <div class="loader-bar-wrap">

@@ -38,7 +38,7 @@ import { changelog, tagLabel, tagColor } from '../data/changelog'
     </div>
 
     <div class="cl-footer">
-      <p>码艺仿 · 持续更新中</p>
+      <p>码艺坊 · 持续更新中</p>
     </div>
   </div>
 </template>
