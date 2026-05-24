@@ -124,7 +124,22 @@ function goTool(path: string) {
     </main>
 
     <footer class="footer">
-      <span class="footer-text">码艺仿 提供技术支持</span>
+      <p class="footer-text">码艺仿在线工具箱 · 由 <a class="footer-link" href="https://qishuai.top" target="_blank" rel="noopener">目南殇</a> 提供技术支持</p>
+      <p class="footer-text footer-copy">&copy; 2026 - 至今 保留所有权利 · MIT License</p>
+      <div class="footer-links">
+        <a class="footer-link-item" href="https://qishuai.top" target="_blank" rel="noopener">
+          <icon-link :size="14" />
+          <span>个人博客</span>
+        </a>
+        <a class="footer-link-item" href="https://github.com/munanshang/MYF-Tools" target="_blank" rel="noopener">
+          <icon-github :size="14" />
+          <span>GitHub</span>
+        </a>
+        <a class="footer-link-item" href="mailto:shuai.qi@outlook.com">
+          <icon-email :size="14" />
+          <span>shuai.qi@outlook.com</span>
+        </a>
+      </div>
     </footer>
 
     <AnnouncementModal />
@@ -253,13 +268,55 @@ function goTool(path: string) {
 
 .footer {
   text-align: center;
-  padding: 16px 16px calc(20px + env(safe-area-inset-bottom, 0));
+  padding: 24px 16px calc(20px + env(safe-area-inset-bottom, 0));
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 20px;
 }
 
 .footer-text {
+  margin: 0 0 4px;
   font-size: 0.75rem;
   letter-spacing: 0.02em;
   color: var(--text-tertiary);
+}
+
+.footer-copy {
+  color: var(--text-tertiary);
+  font-size: 0.6875rem;
+}
+
+.footer-link {
+  color: var(--brand-500);
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+.footer-link:hover {
+  color: var(--brand-600);
+  text-decoration: underline;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.footer-link-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+.footer-link-item:hover {
+  color: var(--brand-500);
 }
 
 @media (min-width: 768px) {
