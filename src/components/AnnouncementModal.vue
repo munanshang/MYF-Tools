@@ -276,3 +276,9 @@ function dismiss() {
   }
 }
 </style>
+
+<style>
+.announce-modal .arco-modal {
+  max-width: 95vw !important;
+}
+</style>
