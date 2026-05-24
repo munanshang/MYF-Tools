@@ -23,6 +23,7 @@ const navIconMap: Record<string, string> = {
   home: 'icon-home',
   history: 'icon-history',
   message: 'icon-message',
+  'info-circle': 'icon-info-circle',
 }
 
 function goHome() {
@@ -117,7 +118,7 @@ function goTool(path: string) {
           class="drawer-item"
           @click="goTool(item.path)"
         >
-          <a-list-item-meta :title="item.label" />
+          <a-list-item-meta :title="item.label" :description="item.desc" />
         </a-list-item>
       </a-list>
     </a-drawer>
@@ -381,7 +382,7 @@ function goTool(path: string) {
     padding-bottom: env(safe-area-inset-bottom, 0);
     background: var(--surface);
     border-top: 1px solid var(--border-subtle);
-    box-shadow: 0 -1px 8px rgb(15 23 42 / 6%);
+    box-shadow: 0 -4px 20px rgb(0 0 0 / 15%);
   }
 
   .bn-item {

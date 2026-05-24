@@ -23,6 +23,12 @@ const router = createRouter({
           meta: { title: '反馈与建议' },
         },
         {
+          path: 'about',
+          name: 'about',
+          component: () => import('../views/AboutView.vue'),
+          meta: { title: '关于本站' },
+        },
+        {
           path: 'changelog',
           name: 'changelog',
           component: () => import('../views/ChangelogView.vue'),
