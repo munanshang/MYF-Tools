@@ -5,12 +5,8 @@ const r = ref(99)
 const g = ref(102)
 const b = ref(241)
 
-function clamp(v: number) {
-  return Math.max(0, Math.min(255, v))
-}
-
 const hexDisplay = computed(() => {
-  const toHex = (v: number) => clamp(v).toString(16).padStart(2, '0')
+  const toHex = (v: number) => Math.max(0, Math.min(255, v)).toString(16).padStart(2, '0')
   return `#${toHex(r.value)}${toHex(g.value)}${toHex(b.value)}`
 })
 
@@ -42,10 +38,6 @@ const hslDisplay = computed(() => {
   }
   return `hsl(${Math.round(h * 360)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)`
 })
-
-function onRChange(v: number) { r.value = clamp(v) }
-function onGChange(v: number) { g.value = clamp(v) }
-function onBChange(v: number) { b.value = clamp(v) }
 
 function onPickerInput(e: Event) {
   const hex = (e.target as HTMLInputElement).value
@@ -85,18 +77,18 @@ function copy(v: string) {
         <div class="color-sliders">
           <div class="slider-row">
             <span class="slider-label r">R</span>
-            <a-input-number v-model="r" :min="0" :max="255" size="small" @change="onRChange" />
-            <a-slider v-model="r" :min="0" :max="255" @change="onRChange" />
+            <a-input-number v-model="r" :min="0" :max="255" size="small" />
+            <a-slider v-model="r" :min="0" :max="255" />
           </div>
           <div class="slider-row">
             <span class="slider-label g">G</span>
-            <a-input-number v-model="g" :min="0" :max="255" size="small" @change="onGChange" />
-            <a-slider v-model="g" :min="0" :max="255" @change="onGChange" />
+            <a-input-number v-model="g" :min="0" :max="255" size="small" />
+            <a-slider v-model="g" :min="0" :max="255" />
           </div>
           <div class="slider-row">
             <span class="slider-label b">B</span>
-            <a-input-number v-model="b" :min="0" :max="255" size="small" @change="onBChange" />
-            <a-slider v-model="b" :min="0" :max="255" @change="onBChange" />
+            <a-input-number v-model="b" :min="0" :max="255" size="small" />
+            <a-slider v-model="b" :min="0" :max="255" />
           </div>
         </div>
       </div>

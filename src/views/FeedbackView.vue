@@ -2,6 +2,10 @@
 import { ref } from 'vue'
 
 const tab = ref<'wechat' | 'email' | 'request'>('wechat')
+
+function copyEmail() {
+  navigator.clipboard.writeText('shuai.qi@outlook.com')
+}
 </script>
 
 <template>
@@ -40,8 +44,8 @@ const tab = ref<'wechat' | 'email' | 'request'>('wechat')
         发送邮件至以下地址，描述你遇到的问题或建议，我们会尽快回复。
       </p>
       <div class="fb-email-card">
-        <code class="fb-email">mayifang@example.com</code>
-        <a-button type="primary" size="small" @click="navigator.clipboard.writeText('mayifang@example.com')">
+        <code class="fb-email">shuai.qi@outlook.com</code>
+        <a-button type="primary" size="small" @click="copyEmail">
           复制邮箱
         </a-button>
       </div>

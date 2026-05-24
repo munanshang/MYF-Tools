@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { tools, getCategories, getToolsByCategory } from '../tools/registry'
+import { getCategories, getToolsByCategory } from '../tools/registry'
 import AnnouncementModal from '../components/AnnouncementModal.vue'
 
 const route = useRoute()
