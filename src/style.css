@@ -1,0 +1,201 @@
+/* ── Design tokens ───────────────────────────────────────── */
+:root {
+  /* Brand (indigo, Linear-adjacent) */
+  --brand-hue: 239;
+  --brand-500: #6366f1;
+  --brand-600: #4f46e5;
+  --brand-700: #4338ca;
+  --brand-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+  --brand-gradient-subtle: linear-gradient(
+    135deg,
+    rgb(99 102 241 / 12%) 0%,
+    rgb(139 92 246 / 8%) 100%
+  );
+
+  /* Surfaces */
+  --page-bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-elevated: rgb(255 255 255 / 72%);
+  --border-subtle: rgb(15 23 42 / 6%);
+  --border-default: rgb(15 23 42 / 8%);
+
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-tertiary: #94a3b8;
+
+  /* Layout */
+  --content-max: 960px;
+  --header-height: 56px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgb(15 23 42 / 4%);
+  --shadow-sm: 0 1px 3px rgb(15 23 42 / 6%), 0 1px 2px rgb(15 23 42 / 4%);
+  --shadow-md: 0 4px 12px rgb(15 23 42 / 6%), 0 2px 4px rgb(15 23 42 / 4%);
+  --shadow-lg: 0 12px 32px rgb(15 23 42 / 8%), 0 4px 8px rgb(15 23 42 / 4%);
+  --shadow-card: 0 0 0 1px var(--border-subtle), var(--shadow-sm);
+  --shadow-card-hover: 0 0 0 1px rgb(99 102 241 / 12%), var(--shadow-md);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 220ms;
+
+  /* Typography */
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    'PingFang SC',
+    'Hiragino Sans GB',
+    'Microsoft YaHei',
+    sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--text-primary);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Arco theme overrides */
+  --primary-1: 238, 242, 255;
+  --primary-2: 224, 231, 255;
+  --primary-3: 199, 210, 254;
+  --primary-4: 165, 180, 252;
+  --primary-5: 129, 140, 248;
+  --primary-6: 99, 102, 241;
+  --primary-7: 79, 70, 229;
+  --primary-8: 67, 56, 202;
+  --primary-9: 55, 48, 163;
+  --primary-10: 49, 46, 129;
+  --color-primary-light-1: rgb(var(--primary-1));
+  --color-primary-light-2: rgb(var(--primary-2));
+  --color-primary-light-3: rgb(var(--primary-3));
+  --color-primary-light-4: rgb(var(--primary-4));
+  --color-primary-6: rgb(var(--primary-6));
+  --color-primary-7: rgb(var(--primary-7));
+  --border-radius-small: var(--radius-sm);
+  --border-radius-medium: var(--radius-md);
+  --border-radius-large: var(--radius-lg);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--page-bg);
+  background-image:
+    radial-gradient(ellipse 90% 60% at 50% -15%, rgb(99 102 241 / 9%), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 100% 0%, rgb(139 92 246 / 6%), transparent 50%),
+    radial-gradient(ellipse 45% 35% at 0% 100%, rgb(59 130 246 / 5%), transparent 45%);
+  background-attachment: fixed;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+/* ── Shared tool page ────────────────────────────────────── */
+.tool-page {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
+  transition:
+    box-shadow var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .tool-page {
+    padding: 24px 28px;
+  }
+}
+
+.tool-label {
+  margin-bottom: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  text-transform: none;
+}
+
+.tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.tool-field {
+  margin-top: 0;
+}
+
+.tool-field + .tool-field,
+.tool-field + .arco-btn,
+.arco-btn + .tool-field {
+  margin-top: 0;
+}
+
+.tool-field .field-btn {
+  margin-top: 10px;
+}
+
+.tool-indent-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Arco refinements */
+.arco-card {
+  border-radius: var(--radius-md) !important;
+}
+
+.arco-btn {
+  border-radius: var(--radius-sm) !important;
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) ease !important;
+}
+
+.arco-btn-primary:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+.arco-textarea,
+.arco-input-wrapper {
+  border-radius: var(--radius-sm) !important;
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease !important;
+}
+
+.arco-textarea:focus-within,
+.arco-input-wrapper:focus-within {
+  box-shadow: 0 0 0 3px rgb(99 102 241 / 12%) !important;
+}
+
+.arco-alert {
+  border-radius: var(--radius-sm) !important;
+}
