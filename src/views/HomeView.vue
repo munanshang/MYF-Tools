@@ -2,6 +2,7 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { tools, getCategories, getToolsByCategory } from '../tools/registry'
+import { fetchStats, type StatsData } from '../utils/stats'
 
 const router = useRouter()
 
@@ -27,9 +28,15 @@ function scrollToCat(id: string, name: string) {
   }
 }
 
+const stats = ref<StatsData | null>(null)
+
 let observer: IntersectionObserver | null = null
 
 onMounted(() => {
+  fetchStats().then((data) => {
+    if (data) stats.value = data
+  })
+
   observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -80,6 +87,23 @@ onUnmounted(() => {
         <span class="hero-dot" aria-hidden="true">·</span>
         电脑与手机均可访问
       </p>
+
+      <div v-if="stats" class="stats-row">
+        <div class="stat-item">
+          <span class="stat-value">{{ stats.todayVisitors.toLocaleString() }}</span>
+          <span class="stat-label">今日访客</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true" />
+        <div class="stat-item">
+          <span class="stat-value">{{ stats.todayViews.toLocaleString() }}</span>
+          <span class="stat-label">今日访问</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true" />
+        <div class="stat-item">
+          <span class="stat-value">{{ stats.totalViews.toLocaleString() }}</span>
+          <span class="stat-label">总访问量</span>
+        </div>
+      </div>
     </section>
 
     <section
@@ -229,6 +253,45 @@ onUnmounted(() => {
 .hero-dot {
   margin: 0 0.35em;
   color: var(--text-tertiary);
+}
+
+/* ── stats ──────────────────────────────────── */
+.stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 18px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.stat-value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--brand-600);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.stat-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border-subtle);
+  flex-shrink: 0;
 }
 
 /* ── category ───────────────────────────────── */
