@@ -5,6 +5,9 @@ import { tools, getCategories, getToolsByCategory } from '../tools/registry'
 
 const LAUNCH_DATE = new Date('2026-05-25T00:00:00+08:00')
 
+let cachedPv: number | null = null
+let cachedUv: number | null = null
+
 const router = useRouter()
 
 const categories = computed(() =>
@@ -32,12 +35,20 @@ function scrollToCat(id: string, name: string) {
 const sitePv = ref<number | null>(null)
 const siteUv = ref<number | null>(null)
 
-async function fetchBusuanzi(): Promise<void> {
+async function loadBusuanzi(): Promise<void> {
+  if (cachedPv !== null && cachedUv !== null) {
+    sitePv.value = cachedPv
+    siteUv.value = cachedUv
+    return
+  }
+
   const cbName = 'BusuanziCallback_' + Math.floor(Math.random() * 1099511627776)
   return new Promise((resolve) => {
     const timer = setTimeout(() => resolve(), 5000)
     ;(window as unknown as Record<string, unknown>)[cbName] = (data: { site_pv: number; site_uv: number }) => {
       clearTimeout(timer)
+      cachedPv = data.site_pv
+      cachedUv = data.site_uv
       sitePv.value = data.site_pv
       siteUv.value = data.site_uv
       delete (window as unknown as Record<string, unknown>)[cbName]
@@ -78,7 +89,7 @@ let observer: IntersectionObserver | null = null
 onMounted(() => {
   updateUptime()
   uptimeTimer = setInterval(updateUptime, 1000)
-  fetchBusuanzi()
+  loadBusuanzi()
 
   observer = new IntersectionObserver(
     (entries) => {
