@@ -2,7 +2,8 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { tools, getCategories, getToolsByCategory } from '../tools/registry'
-import { fetchStats, type StatsData } from '../utils/stats'
+
+const LAUNCH_DATE = new Date('2026-05-25T00:00:00+08:00')
 
 const router = useRouter()
 
@@ -28,14 +29,33 @@ function scrollToCat(id: string, name: string) {
   }
 }
 
-const stats = ref<StatsData | null>(null)
+const uptime = ref('')
+
+function updateUptime() {
+  const diff = Date.now() - LAUNCH_DATE.getTime()
+  const seconds = Math.floor(diff / 1000) % 60
+  const minutes = Math.floor(diff / (1000 * 60)) % 60
+  const hours = Math.floor(diff / (1000 * 60 * 60)) % 24
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const years = Math.floor(days / 365)
+  const remainDays = days - years * 365
+
+  const parts: string[] = []
+  if (years) parts.push(`${years} 年`)
+  if (remainDays) parts.push(`${remainDays} 天`)
+  if (!years) {
+    parts.push(`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`)
+  }
+  uptime.value = parts.join(' ')
+}
+
+let uptimeTimer: ReturnType<typeof setInterval> | null = null
 
 let observer: IntersectionObserver | null = null
 
 onMounted(() => {
-  fetchStats().then((data) => {
-    if (data) stats.value = data
-  })
+  updateUptime()
+  uptimeTimer = setInterval(updateUptime, 1000)
 
   observer = new IntersectionObserver(
     (entries) => {
@@ -57,6 +77,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   observer?.disconnect()
+  if (uptimeTimer) clearInterval(uptimeTimer)
 })
 </script>
 
@@ -88,20 +109,22 @@ onUnmounted(() => {
         电脑与手机均可访问
       </p>
 
-      <div v-if="stats" class="stats-row">
+      <div class="stats-row">
+        <template v-if="uptime">
+          <div class="stat-item">
+            <span class="stat-value">{{ uptime }}</span>
+            <span class="stat-label">已稳定运行</span>
+          </div>
+          <div class="stat-divider" aria-hidden="true" />
+        </template>
         <div class="stat-item">
-          <span class="stat-value">{{ stats.todayVisitors.toLocaleString() }}</span>
-          <span class="stat-label">今日访客</span>
-        </div>
-        <div class="stat-divider" aria-hidden="true" />
-        <div class="stat-item">
-          <span class="stat-value">{{ stats.todayViews.toLocaleString() }}</span>
-          <span class="stat-label">今日访问</span>
-        </div>
-        <div class="stat-divider" aria-hidden="true" />
-        <div class="stat-item">
-          <span class="stat-value">{{ stats.totalViews.toLocaleString() }}</span>
+          <span id="busuanzi_value_site_pv" class="stat-value">-</span>
           <span class="stat-label">总访问量</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true" />
+        <div class="stat-item">
+          <span id="busuanzi_value_site_uv" class="stat-value">-</span>
+          <span class="stat-label">总访客</span>
         </div>
       </div>
     </section>
@@ -292,6 +315,16 @@ onUnmounted(() => {
   height: 24px;
   background: var(--border-subtle);
   flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .stats-row {
+    gap: 14px;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+  }
 }
 
 /* ── category ───────────────────────────────── */
