@@ -29,6 +29,28 @@ function scrollToCat(id: string, name: string) {
   }
 }
 
+const sitePv = ref<number | null>(null)
+const siteUv = ref<number | null>(null)
+
+async function fetchBusuanzi(): Promise<void> {
+  const cbName = 'BusuanziCallback_' + Math.floor(Math.random() * 1099511627776)
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => resolve(), 5000)
+    ;(window as unknown as Record<string, unknown>)[cbName] = (data: { site_pv: number; site_uv: number }) => {
+      clearTimeout(timer)
+      sitePv.value = data.site_pv
+      siteUv.value = data.site_uv
+      delete (window as unknown as Record<string, unknown>)[cbName]
+      script.remove()
+      resolve()
+    }
+    const script = document.createElement('script')
+    script.src = `//busuanzi.ibruce.info/busuanzi?jsonpCallback=${cbName}`
+    script.referrerPolicy = 'no-referrer-when-downgrade'
+    document.head.appendChild(script)
+  })
+}
+
 const uptime = ref('')
 
 function updateUptime() {
@@ -56,6 +78,7 @@ let observer: IntersectionObserver | null = null
 onMounted(() => {
   updateUptime()
   uptimeTimer = setInterval(updateUptime, 1000)
+  fetchBusuanzi()
 
   observer = new IntersectionObserver(
     (entries) => {
@@ -118,12 +141,12 @@ onUnmounted(() => {
           <div class="stat-divider" aria-hidden="true" />
         </template>
         <div class="stat-item">
-          <span id="busuanzi_value_site_pv" class="stat-value">-</span>
+          <span class="stat-value">{{ sitePv !== null ? sitePv.toLocaleString() : '加载中...' }}</span>
           <span class="stat-label">总访问量</span>
         </div>
         <div class="stat-divider" aria-hidden="true" />
         <div class="stat-item">
-          <span id="busuanzi_value_site_uv" class="stat-value">-</span>
+          <span class="stat-value">{{ siteUv !== null ? siteUv.toLocaleString() : '加载中...' }}</span>
           <span class="stat-label">总访客</span>
         </div>
       </div>
